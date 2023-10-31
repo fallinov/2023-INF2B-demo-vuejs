@@ -3,15 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>Démo Vue JS 2.0</title>
+    <style>
+    .produits {
+        list-style: none;
+        padding: 20px;
+    }
+
+    .produits li {
+        text-align: center;
+        border: 2px solid whitesmoke;
+        border-radius: 4px;
+        padding: 10px;
+        margin: 10px;
+    }
+    .actions {
+        padding: .75em;
+    }
+
+    .actions button {
+        padding: .5em 1em;
+    }
+
+    </style>
 </head>
 <body>
 <div id="app">
     <h1>{{ categorie }}</h1>
-
-    <ul>
+    <h2>Stock actuel: {{ totalStock }}</h2>
+    <ul class="produits">
         <li v-for="prod in produits">
-            {{ prod.nom }} - {{ prod.prix }}
-            ({{ prod.qte }} en stock)
+            <img :src="'img/' + prod.img"
+                 :alt="prod.nom"
+            >
+            <h3>{{ prod.nom }}</h3>
+            <div>
+                {{ prod.prix }} -
+                <span v-if="prod.qte > 0">
+                    {{ prod.qte }} en stock
+                </span>
+                <span v-else>
+                    Plus en stock !
+                </span>
+            </div>
+            <input v-model.number="prod.qte">
+            <div class="actions">
+                <button @click="prod.qte += 1">+</button>
+                <button @click="prod.qte -= 1"
+                        :disabled="prod.qte < 1"
+                >-</button>
+            </div>
         </li>
     </ul>
 </div>
@@ -25,11 +65,21 @@
         data: {
             categorie: 'Smartphones',
             produits: [
-              { id: 112, nom: 'Iphone X', qte: 3, prix: '896.00'},
-              { id: 53, nom: 'Samsung S9', qte: 5, prix: '799.00'},
-              { id: 68, nom: 'Huawei P20', qte: 2, prix: '699.00'}
+              { id: 112, nom: 'Iphone X', qte: 3, prix: '896.00', img: 'apple.png'},
+              { id: 53, nom: 'Samsung S9', qte: 0, prix: '799.00', img: 'android.png'},
+              { id: 68, nom: 'Huawei P20', qte: 2, prix: '699.00', img:
+                  'win.jpg'}
             ]
-        }
+        },
+        computed: { // Données calculées
+            totalStock() {
+                let total = 0;
+                for (let prod of this.produits) {
+                    total += prod.qte;
+                }
+                return total;
+            }
+        },
     })
 </script>
 </body>
