@@ -5,6 +5,32 @@
     <title>Démo Vue JS 2.0</title>
 </head>
 <body>
+<div id="app">
+    <h1>{{ categorie }}</h1>
 
+    <ul>
+        <li v-for="prod in produits">
+            {{ prod.nom }} - {{ prod.prix }}
+            ({{ prod.qte }} en stock)
+        </li>
+    </ul>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    // Création d'une nouvelle instance de Vue et de son objet de données
+    const app = new Vue({
+        el: '#app',
+        data: {
+            categorie: 'Smartphones',
+            produits: [
+              { id: 112, nom: 'Iphone X', qte: 3, prix: '896.00'},
+              { id: 53, nom: 'Samsung S9', qte: 5, prix: '799.00'},
+              { id: 68, nom: 'Huawei P20', qte: 2, prix: '699.00'}
+            ]
+        }
+    })
+</script>
 </body>
 </html>
